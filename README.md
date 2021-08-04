@@ -1,4 +1,4 @@
-# guava-concurrency-bug
+# caffeine-concurrency-bug
 
 Causing Concurrent exception while using lot of threads:
 
