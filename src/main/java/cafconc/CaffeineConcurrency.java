@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class CaffeineConcurrency {
-    public static final String FILE = "./data/result.gpkg";
+    public static final String FILE = "./data/database.db";
 
     final static LoadingCache<String, SQLiteManager> cache = Caffeine.newBuilder()
             .expireAfterWrite(30, TimeUnit.MILLISECONDS)
@@ -20,7 +20,7 @@ public class CaffeineConcurrency {
 
     public byte[] getValue() throws SQLException {
         SQLiteManager sqLiteManager = cache.get(FILE);
-        return sqLiteManager.get(37265,19249,16);
+        return sqLiteManager.get("0b3a18cb-1026-492b-ad24-c9a8903ff084");
     }
 
     public static void main(String[] args)  {

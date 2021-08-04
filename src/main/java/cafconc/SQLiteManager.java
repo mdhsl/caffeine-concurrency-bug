@@ -15,9 +15,7 @@ public class SQLiteManager {
 
     protected String tableName;
     protected String dataName;
-    protected String xName;
-    protected String yName;
-    protected String zName;
+    protected String bookIdName;
 
     protected File dbFile;
 
@@ -39,20 +37,17 @@ public class SQLiteManager {
     }
 
     protected void initColumnsName() {
-        tableName = "tiles";
-        dataName = "tile_data";
-        xName = "tile_column";
-        yName = "tile_row";
-        zName = "zoom_level";
+        tableName = "Book";
+        dataName = "Title";
+        bookIdName = "BookId";
     }
 
-    byte[] get(int x, int y, int z) throws SQLException {
+    byte[] get(final String bookId) throws SQLException {
         try(Statement statement = connection.createStatement()) {
             byte[] data = null;
             try (ResultSet rs = statement.executeQuery(
                     new StringBuilder().append("SELECT ").append(dataName).append(" from ").append(tableName)
-                            .append(" where ").append(xName).append("=").append(x).append("").append(" and ")
-                            .append(yName).append("=").append(y).append(" and ").append(zName).append("=").append(z).toString()
+                            .append(" where ").append(bookIdName).append("='").append(bookId).append("'").toString()
             )) {
                 if (rs.next()) {
                     data = rs.getBytes(dataName);
