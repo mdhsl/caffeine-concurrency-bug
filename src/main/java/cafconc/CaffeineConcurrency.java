@@ -24,27 +24,15 @@ public class CaffeineConcurrency {
     }
 
     public static void main(String[] args)  {
-        CaffeineConcurrency caffeineConcurrency = new CaffeineConcurrency();
-        int nbJobs = 10_000;
-        int nbThreads = 32;
-        ExecutorService executorService = Executors.newFixedThreadPool(nbThreads);
-        try {
-            for (int i = 0; i < nbJobs; i++) {
-                executorService.submit(() -> {
-                    try {
-                        byte[] data = caffeineConcurrency.getValue();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+         CaffeineConcurrency caffeineConcurrency = new CaffeineConcurrency();
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            try {
+                caffeineConcurrency.getValue();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
-            executorService.shutdown();
-            executorService.awaitTermination(1, TimeUnit.HOURS);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            caffeineConcurrency.close();
-        }
+        }, 0, 100, TimeUnit.MILLISECONDS);
     }
 
     public void close() {
